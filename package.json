@@ -1,5 +1,5 @@
 {
-  "version": "0.1.17",
+  "version": "0.1.18",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -44,6 +44,10 @@
     "display condition",
     "react render condition"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trunghongoc/react-display-control.git"
+  },
   "module": "dist/react-display-control-replaced.esm.js",
   "size-limit": [
     {
