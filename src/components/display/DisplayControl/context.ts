@@ -11,17 +11,17 @@ export const DisplayControlContext = createContext<
   showingIds: [],
   hiddenIds: [],
 
-  addIdToIds: (id: any) => {},
-  addIdToDuplicatedIds: (id: any) => {},
+  addIdToIds: (_id: any) => {},
+  addIdToDuplicatedIds: (_id: any) => {},
 
-  hideItem: (id: any) => {},
-  hideItems: (ids: any[]) => {},
+  hideItem: (_id: any) => {},
+  hideItems: (_ids: any[]) => {},
   hideAll: () => {},
 
-  showItem: (id: any) => {},
-  showOnlyItem: (id: any) => {},
-  showItems: (ids: any[]) => {},
-  showOnlyItems: (ids: any[]) => {},
+  showItem: (_id: any) => {},
+  showOnlyItem: (_id: any) => {},
+  showItems: (_ids: any[]) => {},
+  showOnlyItems: (_ids: any[]) => {},
   showAll: () => {},
 
   initialShowList: [],

@@ -1,32 +1,32 @@
-import { useContext, useEffect, PropsWithChildren } from 'react'
+import React, { useContext, useEffect, PropsWithChildren } from 'react';
 
-import { DisplayControlContext } from './context'
+import { DisplayControlContext } from './context';
 
 type ItemProps = {
-  id: string | number
-} & PropsWithChildren
+  id: string | number;
+} & PropsWithChildren;
 export const Item = ({ id, children }: ItemProps) => {
   const { mode, showingIds, addIdToIds, addIdToDuplicatedIds } = useContext(
     DisplayControlContext
-  )
-  const isShow = showingIds.includes(id)
+  );
+  const isShow = showingIds.includes(id);
 
   useEffect(() => {
     // check duplicated first
-    addIdToDuplicatedIds(id)
+    addIdToDuplicatedIds(id);
     // then add to list ids later
-    addIdToIds(id)
+    addIdToIds(id);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
+  }, [id]);
 
   if (mode === 'display' && !isShow) {
-    return <span style={{ display: 'none' }}>{children}</span>
+    return <span style={{ display: 'none' }}>{children}</span>;
   }
 
   if (mode === 'render' && !isShow) {
-    return <></>
+    return <></>;
   }
 
-  return <>{children}</>
-}
+  return <>{children}</>;
+};

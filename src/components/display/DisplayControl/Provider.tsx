@@ -1,30 +1,30 @@
-import { useMemo, PropsWithChildren } from 'react'
+import React, { useMemo, PropsWithChildren } from 'react';
 
-import { Item } from './Item'
-import { DisplayControlContext } from './context'
-import { UseDisplayControl } from './type'
+import { Item } from './Item';
+import { DisplayControlContext } from './context';
+import { UseDisplayControl } from './type';
 
 type DisplayControlType<IdType> = {
-  control: UseDisplayControl<IdType>
-} & PropsWithChildren
+  control: UseDisplayControl<IdType>;
+} & PropsWithChildren;
 export const DisplayControl = <IdType extends unknown>({
   control,
-  children
+  children,
 }: DisplayControlType<IdType>) => {
   const contextValue = useMemo(() => {
-    const { __e, ...othersCommon } = control
+    const { __e, ...othersCommon } = control;
 
     return {
       ...__e.context,
-      ...othersCommon
-    }
-  }, [control])
+      ...othersCommon,
+    };
+  }, [control]);
 
   return (
     <DisplayControlContext.Provider value={contextValue}>
       <>{children}</>
     </DisplayControlContext.Provider>
-  )
-}
+  );
+};
 
-DisplayControl.Item = Item
+DisplayControl.Item = Item;

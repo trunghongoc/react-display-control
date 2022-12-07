@@ -1,181 +1,195 @@
-# TSDX React w/ Storybook User Guide
+# Introduction
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+This react component will help you render or show or hide your components by some conditions as easy as good
 
-> This TSDX setup is meant for developing React component libraries (not apps!) that can be published to NPM. If you’re looking to build a React-based app, you should use `create-react-app`, `razzle`, `nextjs`, `gatsby`, or `react-static`.
+## Install
 
-> If you’re new to TypeScript and React, checkout [this handy cheatsheet](https://github.com/sw-yx/react-typescript-cheatsheet/)
+Via Npm:
 
-## Commands
-
-TSDX scaffolds your new library inside `/src`, and also sets up a [Parcel-based](https://parceljs.org) playground for it inside `/example`.
-
-The recommended workflow is to run TSDX in one terminal:
-
-```bash
-npm start # or yarn start
+```s
+npm i -s react-display-control
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+Via Yarn:
 
-Then run either Storybook or the example playground:
-
-### Storybook
-
-Run inside another terminal:
-
-```bash
-yarn storybook
+```s
+yarn add -s react-display-control
 ```
 
-This loads the stories from `./stories`.
+## Demo
 
-> NOTE: Stories should reference the components as if using the library, similar to the example playground. This means importing from the root project directory. This has been aliased in the tsconfig and the storybook webpack config as a helper.
+[Demo page](https://trunghongoc.github.io/react-display-control-demo/)
 
-### Example
+## Usuage
 
-Then run the example inside another:
+Render `<Item />` id = `id_1` and `id_3` at the first time render. Others `<Item />` will be not rendered.
 
-```bash
-cd example
-npm i # or yarn to install dependencies
-npm start # or yarn start
-```
+```tsx
+import { DisplayControl, useDisplayControl } from 'react-display-control'
 
-The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure TSDX is running in watch mode like we recommend above. **No symlinking required**, we use [Parcel's aliasing](https://parceljs.org/module_resolution.html#aliases).
+function App() {
+  const control = useDisplayControl({
+    mode: 'render',
+    initialShowList: ['id_1', 'id_3']
+  })
 
-To do a one-off build, use `npm run build` or `yarn build`.
+  const showOnlyComponent3 = () => {
+    control.showOnlyItem('id_3')
+  }
 
-To run tests, use `npm test` or `yarn test`.
+  return (
+    <>
+      <button onClick={showOnlyComponent3}>Show only component 3</button>
 
-## Configuration
+      <DisplayControl control={control}>
+        <DisplayControl.Item id="id_1">
+          <p>My component 1</p>
+        </DisplayControl.Item>
 
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
+        <DisplayControl.Item id="id_2">
+          <p>My component 2</p>
+        </DisplayControl.Item>
 
-### Jest
+        <DisplayControl.Item id="id_3">
+          <p>My component 3</p>
+        </DisplayControl.Item>
 
-Jest tests are set up to run with `npm test` or `yarn test`.
+        <DisplayControl.Item id="id_4">
+          <p>My component 4</p>
+        </DisplayControl.Item>
 
-### Bundle analysis
+        <p>
+          This component will be always render, because it was wrapped in
+          `&lt;DisplayControl.Item /&gt;`
+        </p>
 
-Calculates the real cost of your library using [size-limit](https://github.com/ai/size-limit) with `npm run size` and visulize it with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/example
-  index.html
-  index.tsx       # test your component here in a demo app
-  package.json
-  tsconfig.json
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-/stories
-  Thing.stories.tsx # EDIT THIS
-/.storybook
-  main.js
-  preview.js
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
-```
-
-#### React Testing Library
-
-We do not set up `react-testing-library` for you yet, we welcome contributions and documentation on this.
-
-### Rollup
-
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
-
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
-
-## Continuous Integration
-
-### GitHub Actions
-
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [size-limit](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
+        <DisplayControl.Item id="id_5">
+          <p>My component 5</p>
+        </DisplayControl.Item>
+      </DisplayControl>
+    </>
+  )
 }
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+## Some properties
 
-## Module Formats
+Get current mode
 
-CJS, ESModules, and UMD module formats are supported.
-
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
-
-## Deploying the Example Playground
-
-The Playground is just a simple [Parcel](https://parceljs.org) app, you can deploy it anywhere you would normally deploy that. Here are some guidelines for **manually** deploying with the Netlify CLI (`npm i -g netlify-cli`):
-
-```bash
-cd example # if not already in the example folder
-npm run build # builds to dist
-netlify deploy # deploy the dist folder
+```tsx
+control.mode
 ```
 
-Alternatively, if you already have a git repo connected, you can set up continuous deployment with Netlify:
+Get all id of `<Item />`
 
-```bash
-netlify init
-# build command: yarn build && cd example && yarn && yarn build
-# directory to deploy: example/dist
-# pick yes for netlify.toml
+```tsx
+control.ids
 ```
 
-## Named Exports
+Get all showing id list
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
-
-## Usage with Lerna
-
-When creating a new package with TSDX within a project set up with Lerna, you might encounter a `Cannot resolve dependency` error when trying to run the `example` project. To fix that you will need to make changes to the `package.json` file _inside the `example` directory_.
-
-The problem is that due to the nature of how dependencies are installed in Lerna projects, the aliases in the example project's `package.json` might not point to the right place, as those dependencies might have been installed in the root of your Lerna project.
-
-Change the `alias` to point to where those packages are actually installed. This depends on the directory structure of your Lerna project, so the actual path might be different from the diff below.
-
-```diff
-   "alias": {
--    "react": "../node_modules/react",
--    "react-dom": "../node_modules/react-dom"
-+    "react": "../../../node_modules/react",
-+    "react-dom": "../../../node_modules/react-dom"
-   },
+```tsx
+control.showingIds
 ```
 
-An alternative to fixing this problem would be to remove aliases altogether and define the dependencies referenced as aliases as dev dependencies instead. [However, that might cause other problems.](https://github.com/palmerhq/tsdx/issues/64)
+Get initial showing list
+
+```tsx
+control.initialShowList
+```
+
+## Some methods
+
+Show 1 more `<Item />` with `showItem = (id: string | number) => void`
+
+- Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render: `id_1` + `id_2` + `id_3`
+
+```tsx
+control.showItem('id_1')
+```
+
+Only show 1 `<Item />` to screen by id
+
+- Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render only: `id_1`
+
+```tsx
+control.showOnlyItem('id_1')
+```
+
+Show more many `<Item />`
+
+- Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render: `id_1` + `id_2` + `id_3` + `id_4`
+
+```tsx
+control.showItems(['id_1', 'id_4'])
+```
+
+Show only accurate list `<Item />`
+
+- Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render: `id_1` + `id_3` + `id_4`
+
+```tsx
+control.showOnlyItems(['id_1', 'id_3', 'id_4'])
+```
+
+Hide 1 `<Item />`
+
+```tsx
+control.hideItem('id_1')
+```
+
+Hide many `<Item />`
+
+```tsx
+control.hideItems(['id_1', 'id_2', 'id_3'])
+```
+
+Show all `<Item />`
+
+```tsx
+control.showAll()
+```
+
+Hide all `<Item />`
+
+```tsx
+control.hideAll()
+```
+
+## API
+
+### Props of `useDisplayControl` hooks
+
+```tsx
+const control = useDisplayControl({
+  mode: 'render',
+  initialShowList: ['id_1', 'id_3']
+})
+```
+
+| #   | Field           | Type                  | Required | Default          | Note                                                                                                                                                                                                                       |
+| --- | --------------- | --------------------- | -------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     | mode            | 'render' \| 'display' | true     | No default value | `render` mode: If `<Item />` need to hide, it will be not rendered as HTML code. `<Item />` will be rendered as undefined `display` mode: If `<Item />` need to hide, it will be has `display: none` css style attributes. |
+|     | initialShowList | (string \| number)[]  | false    | []               | Initial showing list                                                                                                                                                                                                       |
+
+### Data of `control` instance
+
+| #   | Field           | Type                  | Avaiable to Access | Example value            | Note                                                                                                                                                                                                                       |
+| --- | --------------- | --------------------- | ------------------ | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | mode            | 'render' \| 'display' | true               | 'render'                 | `render` mode: If `<Item />` need to hide, it will be not rendered as HTML code. `<Item />` will be rendered as undefined `display` mode: If `<Item />` need to hide, it will be has `display: none` css style attributes. |
+| 2   | ids             | (string \| number)[]  | true               | ['id_1', 'id_2', 'id_3'] | All unique `id` of `<Item />`                                                                                                                                                                                              |
+| 3   | showingIds      | (string \| number)[]  | true               | ['id_1', 'id_3']         | All id of showing `<Item />`                                                                                                                                                                                               |
+| 4   | initialShowList | (string \| number)[]  | true               | ['id_1']                 | Your first initial config list `id` default to show                                                                                                                                                                        |
+
+### Methods
+
+| #   | Method name   | Type                                | Example                                         | Note                                                                                                                                                                              |
+| --- | ------------- | ----------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | showItem      | (id: string \| number) => void      | control.showItem('id_2')                        | Show 1 more `<Item />` with `showItem` - Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render: `id_1` + `id_2` + `id_3` |
+| 2   | showOnlyItem  | (id: string \| number) => void      | control.showItem('id_2')                        | Only show 1 `<Item />`to screen by id - Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render only: `id_1`               |
+| 3   | showItems     | (ids: (string \| number)[]) => void | control.showItems(['id_1', 'id_4'])             | Show more many `<Item />` - Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render: `id_1` + `id_2` + `id_3` + `id_4`     |
+| 4   | showOnlyItems | (ids: (string \| number)[]) => void | control.showOnlyItems(['id_1', 'id_3', 'id_4']) | Show only accurate list `<Item />` - Note: if your current showing includes: `id_2`, `id_3`. After run this code bellow, your screen will be render: `id_1` + `id_3` + `id_4`     |
+| 5   | hideItem      | (id: string \| number) => void      | control.hideItem('id_1')                        | Hide 1 `<Item />`                                                                                                                                                                 |
+| 6   | hideItems     | (ids: (string \| number)[]) => void | control.hideItems(['id_1', 'id_2', 'id_3'])     | Hide many `<Item />`                                                                                                                                                              |
+| 7   | showAll       | () => void                          | control.showAll()                               | Show all `<Item />`                                                                                                                                                               |
+| 8   | hideAll       | () => void                          | control.hideAll()                               | Hide all `<Item />`                                                                                                                                                               |
