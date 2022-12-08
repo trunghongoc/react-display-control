@@ -19,6 +19,7 @@ yarn add -s react-display-control
 ## Demo
 
 [Demo page](https://trunghongoc.github.io/react-display-control-demo/)
+- Code: [See example <Fruits /> component here](https://github.com/trunghongoc/react-display-control/tree/main/example)
 
 ## Usuage
 
