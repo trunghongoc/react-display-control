@@ -22,6 +22,25 @@ yarn add react-display-control
 
 - Code: [See example <Fruits /> component here](https://github.com/trunghongoc/react-display-control/tree/main/example)
 
+## Content
+
+- [Introduction](#introduction)
+  - [Install](#install)
+  - [Demo](#demo)
+  - [Content](#content)
+  - [Usuage](#usuage)
+    - [Import Display Control Provider to App.tsx](#import-display-control-provider-to-apptsx)
+    - [Control display state of some components](#control-display-state-of-some-components)
+    - [Init default display state](#init-default-display-state)
+    - [Init default display mode](#init-default-display-mode)
+    - [Multiple display control](#multiple-display-control)
+    - [Nesting display control](#nesting-display-control)
+  - [API](#api)
+    - [Root provider (`<DisplayControlProvider />`)](#root-provider-displaycontrolprovider-)
+    - [Display control group (`<Group />`) props](#display-control-group-group--props)
+    - [Display control item (`<Item />`) props](#display-control-item-item--props)
+    - [Get current display state of a `<Group />`, and excute some methods to show/hide `<Item />`](#get-current-display-state-of-a-group--and-excute-some-methods-to-showhide-item-)
+
 ## Usuage
 
 ### Import Display Control Provider to App.tsx
