@@ -95,7 +95,7 @@ export const useCreateRootDc = <
 
   return {
     ...rootDc,
-    hideGroup,
+    hideGroup, // this function will be removed soon
     __ext__: {
       setDcValue,
       setDcDisplayValue,
