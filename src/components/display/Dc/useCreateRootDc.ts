@@ -37,6 +37,7 @@ const rootDcReducer = <IGroupsId>(
         group: {
           ...state.group,
           [action.payload.id]: {
+            /** @ts-ignore */
             ...state.group[action.payload.id],
             ...action.payload.data
           }

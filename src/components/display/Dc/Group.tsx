@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useRef, useCallback } from 'react'
+import React, { PropsWithChildren, useEffect, useRef, useCallback } from 'react'
 import { IdType, RenderMode, IGroupDisplayItems } from './type'
 import { defaultRenderMode } from './constants'
 import { useGetInternalGroupOrRoot } from './useGetInternalGroupOrRoot'

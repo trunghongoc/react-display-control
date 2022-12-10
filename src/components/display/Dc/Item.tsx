@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useContext, useMemo } from 'react'
+import React, { PropsWithChildren, useEffect, useContext, useMemo } from 'react'
 import { IdType, RenderMode } from './type'
 import { defaultRenderMode } from './constants'
 import { useGetInternalGroupOrRoot } from './useGetInternalGroupOrRoot'

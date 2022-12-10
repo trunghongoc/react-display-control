@@ -25,7 +25,9 @@ export interface IGroupDisplayItems {
   [key: IdType]: boolean
 }
 export interface IUseCreateRootDcGroupsValue<IGroupsId> {
-  group: IGroupDisplayItems
+  group: {
+    [key: IdType]: IGroupDisplayItems
+  }
 }
 
 interface IRootDcValueHelpers {
@@ -65,7 +67,8 @@ export interface IRootDcValueWithContextExt<IGroupsId extends unknown>
 
 export interface IRootDcActionReducerPayload {
   id: IdType
-  data: IGroupValue | any
+  // data: IGroupValue | any
+  data: any
 }
 
 export interface IRootDcActionReducerAction {
