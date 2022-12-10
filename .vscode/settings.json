@@ -1,0 +1,31 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.formatOnSave": true
+  },
+  "eslint.codeActionOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.spaceSize": 2,
+  "emmet.includeLanguages": {
+    "typescript": "typescript"
+  },
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "prettier.stylelintIntegration": true,
+  "prettier.cssEnable": ["css", "less", "sass"]
+}
