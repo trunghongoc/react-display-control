@@ -69,7 +69,7 @@ const rootDcReducer = (
   }
 }
 
-export const useCreateRootDc = <IGroupsId>(): IRootDcValueWithContextExt => {
+export const useCreateRootDc = (): IRootDcValueWithContextExt => {
   const [rootDc, dispatchRootDc] = useReducer<
     Reducer<IRootDcValue, IRootDcActionReducerAction>
   >(rootDcReducer, {
