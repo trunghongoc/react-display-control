@@ -17,6 +17,7 @@ export const useDisplayControl = (groupId: IdType): UseDisplayControlValue => {
 
         for (const key in dispayConfig) {
           if (dispayConfig.hasOwnProperty(key)) {
+            // @ts-ignore
             formatedDisplayConfig[key] = !!dispayConfig[key]
           }
         }
