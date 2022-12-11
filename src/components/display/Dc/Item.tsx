@@ -11,6 +11,8 @@ interface IProps extends PropsWithChildren {
 
 export const Item = ({ id, mode, children }: IProps) => {
   const groupContexForChildren = useContext(GroupContext)
+  // TODO: We will fill the IInterface later
+  // @ts-ignore
   const groupContext: { [itemId: string | number]: boolean } | undefined =
     useGetInternalGroupOrRoot(groupContexForChildren.groupId)
 
@@ -24,10 +26,12 @@ export const Item = ({ id, mode, children }: IProps) => {
     }
 
     // check item.id
+    // @ts-ignore
     if (typeof groupContext[id] !== 'boolean') {
       return true
     }
 
+    // @ts-ignore
     return groupContext[id]
   }, [groupContext, id])
 

@@ -29,6 +29,7 @@ const rootDcReducer = (
 
     // updating case
     case 'setGroupDcValueASlice': {
+      // @ts-ignore
       const dcType: GroupDcType | undefined = state.dcType[action.payload.id]
 
       if (dcType !== 'group' && dcType !== 'singleItem') {
