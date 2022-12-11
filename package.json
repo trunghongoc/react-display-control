@@ -1,5 +1,5 @@
 {
-  "version": "0.2.6",
+  "version": "0.2.8",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -31,12 +31,14 @@
   },
   "name": "react-display-control",
   "author": "Trung Ho Ngoc (Universe)",
-  "description": "This react component will help you render or show or hide your components by some conditions as easy as good",
+  "description": "This react component will help you render or show or hide your components by some conditions as easy as good, show and hide components from another components, show and hide components from outside, ...",
   "keywords": [
     "render condition",
     "display control",
     "display condition",
-    "react render condition"
+    "react render condition",
+    "react display control",
+    "react show hide components"
   ],
   "repository": {
     "type": "git",
