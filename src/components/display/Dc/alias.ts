@@ -1,3 +1,5 @@
 export { RootProvider as DisplayControlProvider } from './RootProvider'
 export { Group as DisplayControlGroup } from './Group'
+export { ItemSingle as SingleItem } from './ItemSingle'
+export { ItemSingle as DisplayControlSingleItem } from './ItemSingle'
 export { Item as DisplayControlItem } from './Item'

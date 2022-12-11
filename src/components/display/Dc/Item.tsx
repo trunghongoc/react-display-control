@@ -11,7 +11,8 @@ interface IProps extends PropsWithChildren {
 
 export const Item = ({ id, mode, children }: IProps) => {
   const groupContexForChildren = useContext(GroupContext)
-  const groupContext = useGetInternalGroupOrRoot(groupContexForChildren.groupId)
+  const groupContext: { [itemId: string | number]: boolean } | undefined =
+    useGetInternalGroupOrRoot(groupContexForChildren.groupId)
 
   const currentMode = useMemo(() => {
     return mode || groupContexForChildren.defaultMode || defaultRenderMode
@@ -22,6 +23,7 @@ export const Item = ({ id, mode, children }: IProps) => {
       return true
     }
 
+    // check item.id
     if (typeof groupContext[id] !== 'boolean') {
       return true
     }

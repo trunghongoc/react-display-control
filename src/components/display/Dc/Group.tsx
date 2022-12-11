@@ -51,9 +51,10 @@ export const Group = ({
 
   useEffect(() => {
     if (!groupContext) {
-      rootContext.__ext__.setDcDisplayValue({
+      rootContext.__ext__.setGroupDcValue({
         id,
-        data: groupRef.current
+        dcType: 'group',
+        state: groupRef.current
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,7 +1,9 @@
 import {
   DisplayControlProvider,
   DisplayControlGroup,
-  DisplayControlItem
+  DisplayControlItem,
+  SingleItem,
+  DisplayControlSingleItem
 } from './alias'
 import { useDisplayControl } from './useDisplayControl'
 import { Group } from './Group'
@@ -13,6 +15,8 @@ export {
   useDisplayControl,
   Group,
   DisplayControlGroup,
+  SingleItem,
+  DisplayControlSingleItem,
   Item,
   DisplayControlItem
 }

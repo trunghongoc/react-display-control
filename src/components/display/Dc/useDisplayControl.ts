@@ -1,32 +1,73 @@
-import { useContext, useCallback } from 'react'
+import { useContext, useCallback, useEffect } from 'react'
 import { RootContext } from './rootContext'
 import { setAllAttrsToSameBool } from './helpers'
 import { IdType, IGroupDisplayItems, UseDisplayControlValue } from './type'
 
 export const useDisplayControl = (groupId: IdType): UseDisplayControlValue => {
   const rootContext = useContext(RootContext)
+  const state: IGroupDisplayItems | boolean | undefined =
+    rootContext.group[groupId]
 
-  const setDisplay = useCallback(
-    (dispayConfig: IGroupDisplayItems) => {
-      rootContext.__ext__.setDcDisplayValueAPart({
-        id: groupId,
-        data: dispayConfig
-      })
+  const getFormatedDisplayConfig = useCallback(
+    (
+      dispayConfig: IGroupDisplayItems | boolean
+    ): IGroupDisplayItems | boolean => {
+      if (typeof dispayConfig === 'object') {
+        const formatedDisplayConfig: IGroupDisplayItems = {}
+
+        for (const key in dispayConfig) {
+          if (dispayConfig.hasOwnProperty(key)) {
+            ;(formatedDisplayConfig as any)[key] = !!dispayConfig[key]
+          }
+        }
+
+        return formatedDisplayConfig
+      }
+
+      return !!dispayConfig
     },
-    [groupId, rootContext]
+    []
   )
 
   const displaySameValue = useCallback(
     (value: boolean) => {
-      const state = rootContext.group[groupId]
       const newState = setAllAttrsToSameBool(state, value)
 
-      rootContext.__ext__.setDcDisplayValueAPart({
+      rootContext.__ext__.setGroupDcValueASlice({
         id: groupId,
-        data: newState
+        state: newState
       })
     },
-    [groupId, rootContext]
+    [groupId, rootContext, state]
+  )
+
+  const setDisplay = useCallback(
+    (dispayConfig: IGroupDisplayItems | boolean) => {
+      if (dispayConfig === null) {
+        return
+      }
+
+      if (
+        typeof dispayConfig !== 'boolean' &&
+        typeof dispayConfig !== 'object'
+      ) {
+        return
+      }
+
+      if (typeof dispayConfig === 'boolean') {
+        displaySameValue(dispayConfig)
+        return
+      }
+
+      const formatedDisplayConfig: IGroupDisplayItems | boolean =
+        getFormatedDisplayConfig(dispayConfig)
+
+      rootContext.__ext__.setGroupDcValueASlice({
+        id: groupId,
+        state: formatedDisplayConfig
+      })
+    },
+    [groupId, rootContext, getFormatedDisplayConfig, displaySameValue]
   )
 
   const displayAll = useCallback(() => {
@@ -41,7 +82,10 @@ export const useDisplayControl = (groupId: IdType): UseDisplayControlValue => {
     return null
   }
 
-  if (!rootContext.group[groupId]) {
+  if (
+    !rootContext.group[groupId] &&
+    typeof rootContext.group[groupId] !== 'boolean'
+  ) {
     return null
   }
 

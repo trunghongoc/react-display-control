@@ -1,14 +1,18 @@
 import { IGroupDisplayItems } from './type'
 
 export const setAllAttrsToSameBool = (
-  obj: IGroupDisplayItems,
+  objOrBool: IGroupDisplayItems | boolean | undefined,
   value: boolean
-): IGroupDisplayItems => {
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      ;(obj as any)[key] = value
+): IGroupDisplayItems | boolean => {
+  if (typeof objOrBool === 'object') {
+    for (const key in objOrBool) {
+      if (objOrBool.hasOwnProperty(key)) {
+        ;(objOrBool as any)[key] = value
+      }
     }
+
+    return objOrBool
   }
 
-  return obj
+  return value
 }

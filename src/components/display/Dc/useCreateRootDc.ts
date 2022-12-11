@@ -3,46 +3,63 @@ import {
   IRootDcValue,
   IRootDcValueWithContextExt,
   IRootDcActionReducerAction,
-  IRootDcActionReducerPayload
+  IRootDcActionReducerPayload,
+  GroupDcType
 } from './type'
 
-const rootDcReducer = <IGroupsId>(
-  state: IRootDcValue<IGroupsId>,
+const rootDcReducer = (
+  state: IRootDcValue,
   action: IRootDcActionReducerAction
 ) => {
   switch (action.type) {
+    // first time settings
     case 'setGroupDcValue': {
       return {
         ...state,
         group: {
           ...state.group,
-          [action.payload.id]: action.payload.data
+          [action.payload.id]: action.payload.state
+        },
+        dcType: {
+          ...state.dcType,
+          [action.payload.id]: action.payload.dcType
         }
       }
     }
 
-    case 'setGroupDcDisplayValue': {
-      return {
-        ...state,
-        group: {
-          ...state.group,
-          [action.payload.id]: action.payload.data
-        }
-      }
-    }
+    // updating case
+    case 'setGroupDcValueASlice': {
+      const dcType: GroupDcType | undefined = state.dcType[action.payload.id]
 
-    case 'setGroupDcDisplayValueAPart': {
-      return {
-        ...state,
-        group: {
-          ...state.group,
-          [action.payload.id]: {
-            /** @ts-ignore */
-            ...state.group[action.payload.id],
-            ...action.payload.data
+      if (dcType !== 'group' && dcType !== 'singleItem') {
+        return state
+      }
+
+      if (dcType === 'group') {
+        return {
+          ...state,
+          group: {
+            ...state.group,
+            [action.payload.id]: {
+              /** @ts-ignore */
+              ...state.group[action.payload.id],
+              ...action.payload.state
+            }
           }
         }
       }
+
+      if (dcType === 'singleItem') {
+        return {
+          ...state,
+          group: {
+            ...state.group,
+            [action.payload.id]: !!action.payload.state
+          }
+        }
+      }
+
+      return state
     }
 
     default: {
@@ -51,43 +68,31 @@ const rootDcReducer = <IGroupsId>(
   }
 }
 
-export const useCreateRootDc = <
-  IGroupsId
->(): IRootDcValueWithContextExt<IGroupsId> => {
+export const useCreateRootDc = <IGroupsId>(): IRootDcValueWithContextExt => {
   const [rootDc, dispatchRootDc] = useReducer<
-    Reducer<IRootDcValue<IGroupsId>, IRootDcActionReducerAction>
+    Reducer<IRootDcValue, IRootDcActionReducerAction>
   >(rootDcReducer, {
-    displayState: {},
-    groupsId: [],
-    group: {}
+    group: {},
+    dcType: {}
   })
 
-  const hideGroup = useCallback((id: IGroupsId) => {
-    // ...
-  }, [])
-
-  const setDcValue = useCallback((data: IRootDcActionReducerPayload): void => {
-    dispatchRootDc({
-      type: 'setGroupDcValue',
-      payload: data
-    })
-  }, [])
-
-  const setDcDisplayValue = useCallback(
-    (data: IRootDcActionReducerPayload): void => {
+  // first time settings
+  const setGroupDcValue = useCallback(
+    (payload: IRootDcActionReducerPayload): void => {
       dispatchRootDc({
-        type: 'setGroupDcDisplayValue',
-        payload: data
+        type: 'setGroupDcValue',
+        payload
       })
     },
     []
   )
 
-  const setDcDisplayValueAPart = useCallback(
-    (data: IRootDcActionReducerPayload): void => {
+  // updating case
+  const setGroupDcValueASlice = useCallback(
+    (payload: IRootDcActionReducerPayload): void => {
       dispatchRootDc({
-        type: 'setGroupDcDisplayValueAPart',
-        payload: data
+        type: 'setGroupDcValueASlice',
+        payload
       })
     },
     []
@@ -95,12 +100,6 @@ export const useCreateRootDc = <
 
   return {
     ...rootDc,
-    hideGroup, // this function will be removed soon
-    __ext__: {
-      setDcValue,
-      setDcDisplayValue,
-      setDcDisplayValueAPart,
-      dispatchRootDc
-    }
+    __ext__: { setGroupDcValue, setGroupDcValueASlice, dispatchRootDc }
   }
 }

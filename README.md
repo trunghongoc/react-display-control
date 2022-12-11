@@ -13,6 +13,17 @@ Features:
 - Nesting display control
   - `<Group />` can be nesting
 
+Notice:
+
+- Don't forget wrap your app with `<DisplayControlProvider />`, let's implement it in `src/App.tsx` or `src/index.tsx`
+  - Regarding nextjs, you can implement `<DisplayControlProvider />` in `pages/_app.tsx`
+- Use `<SingleItem />` if you only wanna control a single element/component
+- User `<Group />` and `<Item />` if you wanna control many `<Item />` inside a `<Group />`
+- `useDisplayControl`:
+  - You can check `display state` of some `<Group />` or `<SingleItem />`
+  - You can excute some methods like `setDisplay`, `displayAll`, `hideAll`
+  - For more detail please read [API](#api)
+
 ## Install
 
 Via Npm:
@@ -34,13 +45,15 @@ yarn add react-display-control
   - [Content](#content)
   - [Usuage](#usuage)
     - [Import Display Control Provider to App.tsx](#import-display-control-provider-to-apptsx)
-    - [Basic show/hide some components or some elements](#basic-showhide-some-components-or-some-elements)
-    - [Init a default display state](#init-a-default-display-state)
-    - [Init default display mode](#init-default-display-mode)
+    - [Show/hide for single item `<SingleItem />`](#showhide-for-single-item-singleitem-)
+    - [Basic show/hide some components or some elements in a `<Group />`](#basic-showhide-some-components-or-some-elements-in-a-group-)
+    - [Init a default display state for `<Group />`](#init-a-default-display-state-for-group-)
+    - [Init default display mode for `<Group />`](#init-default-display-mode-for-group-)
     - [Multiple display control (create many `<Group />`)](#multiple-display-control-create-many-group-)
     - [Nesting display control](#nesting-display-control)
   - [API](#api)
     - [Root provider (`<DisplayControlProvider />`)](#root-provider-displaycontrolprovider-)
+    - [Display control for single item `<SingleItem />`](#display-control-for-single-item-singleitem-)
     - [Display control group (`<Group />`) props](#display-control-group-group--props)
     - [Display control item (`<Item />`) props](#display-control-item-item--props)
     - [Get current display state of a `<Group />`, and excute some methods to show/hide `<Item />`](#get-current-display-state-of-a-group--and-excute-some-methods-to-showhide-item-)
@@ -67,13 +80,49 @@ export const App = () => {
 }
 ```
 
-### Basic show/hide some components or some elements
+### Show/hide for single item `<SingleItem />`
+
+`<SingleItem />` is an alias of `<DisplayControlSingleItem />`
+
+```tsx
+import {
+  SingleItem,
+  useDisplayControl,
+  UseDisplayControlValue
+} from 'react-display-control'
+// Or
+/*
+import {
+  DisplayControlSingleItem,
+  useDisplayControl,
+  UseDisplayControlValue
+} from 'react-display-control'
+*/
+
+const Home = () => {
+  const mySingleItemDc: UseDisplayControlValue =
+    useDisplayControl('mySingleItemDc')
+
+  return (
+    <div>
+      <button onClick={() => mySingleItemDc?.setDisplay(true)}>Show</button>
+      <button onClick={() => mySingleItemDc?.setDisplay(false)}>Hide</button>
+
+      <SingleItem id="mySingleItemDc" mode="render" initialDisplay={true}>
+        <p>My content inside</p>
+      </SingleItem>
+    </div>
+  )
+}
+```
+
+### Basic show/hide some components or some elements in a `<Group />`
 
 [Example code + preview: Basic show/hide components/elements](https://codesandbox.io/s/basic-show-hide-react-display-control-x1t49v)
 
 Default: show all `<Item />` if you don't pass `initialDisplay` props
 
-### Init a default display state
+### Init a default display state for `<Group />`
 
 Some components/elements will be showed or be hidden by default if you provide `initialDisplay` props to `<Group />`
 
@@ -101,7 +150,7 @@ initialDisplay={{
 
 [Example code + preview: init default show/hide state of some components/elements](https://codesandbox.io/s/init-default-show-hide-state-react-display-control-g1fqtb?file=/src/App.tsx)
 
-### Init default display mode
+### Init default display mode for `<Group />`
 
 [Example code + preview: init default display mode ('render' or 'css')](https://codesandbox.io/s/init-render-mode-react-display-control-5bhcxb?file=/src/App.tsx)
 
@@ -143,6 +192,49 @@ export const App = () => {
   )
 }
 ```
+
+### Display control for single item `<SingleItem />`
+
+`<SingleItem />` is an alias of `<DisplayControlSingleItem />`
+
+```tsx
+import {
+  SingleItem,
+  useDisplayControl,
+  UseDisplayControlValue
+} from 'react-display-control'
+// Or
+/*
+import {
+  DisplayControlSingleItem,
+  useDisplayControl,
+  UseDisplayControlValue
+} from 'react-display-control'
+*/
+
+const Home = () => {
+  const mySingleItemDc: UseDisplayControlValue =
+    useDisplayControl('mySingleItemDc')
+
+  return (
+    <div>
+      <button onClick={() => mySingleItemDc?.setDisplay(true)}>Show</button>
+      <button onClick={() => mySingleItemDc?.setDisplay(false)}>Hide</button>
+
+      <SingleItem id="mySingleItemDc" mode="render" initialDisplay={true}>
+        <p>My content inside</p>
+      </SingleItem>
+    </div>
+  )
+}
+```
+
+Props:
+| # | Field | Type | Required | Default | Example | Note |
+|---|----------------|-------------------|----------|----------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | id | string \| number | true | | 'mySingleDc' | Id of <SingleItem /> |
+| 2 | mode | 'render' \| 'css' | false | 'render' | 'css' | `render` mode: If need to hide, it will be not rendered as HTML code. will be rendered as undefined `css` mode: If need to hide, it will be has display: none css style attributes. |
+| 3 | initialDisplay | boolean | false | true | true | Show or hide <SingleItem /> at the first time render |
 
 ### Display control group (`<Group />`) props
 
@@ -192,9 +284,9 @@ const MyComponent = () => {
 }
 ```
 
-| #   | Hooks             | Type                                                                                                                                                                                                                   | Required | Default | Example                                            | Note                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| --- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | useDisplayControl | (groupId: string \| number) => ({ state: { [itemId: string \| number]: boolean }, setDisplay: (displayConfig: { [itemId: string \| number]: boolean }) => void, displayAll: () => void, hideAll: () => void }) \| null | true     |         | const homePageDc = useDisplayControl('homePageDc') | useDisplayControl(`groupId`) will return null if it cant not find the `<Group />` It's because you passed wrong `groupId`, or at the time component don't complete setup all necessary. Therefore always use `homePageDc?.state`, `homePageDc?.setDisplay(...)` `homePageDc.hideAll()`, `homePageDc.displayAll()` to avoid some unnecessary errors `homePageDc.state`: all current display state of current `<Group />`, example: `{ header: true, body: false }` `homePageDc.setDisplay({ header: false, footer: true })`: set display state for `header` and `footer` `homePageDc.displayAll()`: display all `<Item />` of current `<Group />` `homePageDc.hideAll()`: hide all `<Item />` of current `<Group />` |
+| #   | Hooks             | Type                                                                                                                                                  | Required                                                                 | Default | Example | Note                                               |
+| --- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------- | ------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | useDisplayControl | (groupId: string \| number) => ({ state: { [itemId: string \| number]: boolean }, setDisplay: (displayConfig: { [itemId: string \| number]: boolean } | boolean) => void, displayAll: () => void, hideAll: () => void }) \| null | true    |         | const homePageDc = useDisplayControl('homePageDc') | useDisplayControl(`groupId`) will return null if it cant not find the `<Group />` It's because you passed wrong `groupId`, or at the time component don't complete setup all necessary. Therefore always use `homePageDc?.state`, `homePageDc?.setDisplay(...)` `homePageDc.hideAll()`, `homePageDc.displayAll()` to avoid some unnecessary errors `homePageDc.state`: all current display state of current `<Group />`, example: `{ header: true, body: false }` `homePageDc.setDisplay({ header: false, footer: true })`: set display state for `header` and `footer` `homePageDc.displayAll()`: display all `<Item />` of current `<Group />` `homePageDc.hideAll()`: hide all `<Item />` of current `<Group />` |
 
 Usuage:
 
@@ -216,7 +308,9 @@ const { state, setDisplay, displayAll, hideAll }: UseDisplayControlValue =
   - Description: return value type of `useDisplayControl`
   - Type:
     - state: { [itemId: string | number]: boolean }
-    - setDisplay: (displayConfig: { [itemId: string | number]: boolean }) => void
+    - setDisplay: (displayConfig: { [itemId: string | number]: boolean } | boolean) => void
+      - If displayConfig === true (boolean), it is equivalent to display all
+      - If displayConfig === false (boolean), it is equivalent to hide all
     - displayAll: () => void
     - hideAll: () => void
   - Meaning:

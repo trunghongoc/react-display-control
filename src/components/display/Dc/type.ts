@@ -3,6 +3,7 @@ import { Dispatch } from 'react'
 /** Common */
 export type IdType = string | number
 export type RenderMode = 'render' | 'css'
+export type GroupDcType = 'group' | 'singleItem'
 /** .Common */
 
 /** Group */
@@ -14,7 +15,7 @@ export interface IGroupValue {
 
 export type UseDisplayControlValue = {
   state: IGroupDisplayItems
-  setDisplay: (dispayConfig: IGroupDisplayItems) => void
+  setDisplay: (dispayConfig: IGroupDisplayItems | boolean) => void
   displayAll: () => void
   hideAll: () => void
 } | null
@@ -24,51 +25,29 @@ export type UseDisplayControlValue = {
 export interface IGroupDisplayItems {
   [key: IdType]: boolean
 }
-export interface IUseCreateRootDcGroupsValue<IGroupsId> {
+export interface IRootDcValue {
   group: {
-    [key: IdType]: IGroupDisplayItems
+    [key: IdType]: IGroupDisplayItems | boolean
+  }
+
+  dcType: {
+    [groupId: string | number]: GroupDcType
   }
 }
 
-interface IRootDcValueHelpers {
-  displayState: {
-    [key: IdType]: {
-      [key: IdType]: boolean
-    }
-  }
-
-  groupsId: IdType[]
-}
-
-interface IRootDcValueMethodsOptional<IGroupsId> {
-  hideGroup?: (id: IGroupsId) => void
-}
-
-type IRootDcValueMethodsRequired<IGroupsId> = {
-  [key in keyof IRootDcValueMethodsOptional<IGroupsId>]: IRootDcValueMethodsOptional<IGroupsId>[key]
-}
-
-export interface IRootDcValue<IGroupsId extends any>
-  extends IUseCreateRootDcGroupsValue<IGroupsId>,
-    IRootDcValueHelpers,
-    IRootDcValueMethodsOptional<IGroupsId> {}
-
-export interface IRootDcValueWithContextExt<IGroupsId extends unknown>
-  extends IUseCreateRootDcGroupsValue<IGroupsId>,
-    IRootDcValueHelpers,
-    IRootDcValueMethodsRequired<IGroupsId> {
+export interface IRootDcValueWithContextExt extends IRootDcValue {
   __ext__: {
-    setDcValue: (data: IRootDcActionReducerPayload) => void
-    setDcDisplayValue: (data: IRootDcActionReducerPayload) => void
-    setDcDisplayValueAPart: (data: IRootDcActionReducerPayload) => void
+    // setDcValue: (data: IRootDcActionReducerPayload) => void
+    setGroupDcValue: (data: IRootDcActionReducerPayload) => void
+    setGroupDcValueASlice: (data: IRootDcActionReducerPayload) => void
     dispatchRootDc: Dispatch<IRootDcActionReducerAction>
   }
 }
 
 export interface IRootDcActionReducerPayload {
   id: IdType
-  // data: IGroupValue | any
-  data: any
+  dcType: GroupDcType
+  state: any
 }
 
 export interface IRootDcActionReducerAction {
