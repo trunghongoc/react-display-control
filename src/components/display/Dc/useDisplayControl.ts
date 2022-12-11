@@ -17,7 +17,7 @@ export const useDisplayControl = (groupId: IdType): UseDisplayControlValue => {
 
         for (const key in dispayConfig) {
           if (dispayConfig.hasOwnProperty(key)) {
-            ;(formatedDisplayConfig as any)[key] = !!dispayConfig[key]
+            formatedDisplayConfig[key] = !!dispayConfig[key]
           }
         }
 
