@@ -27,8 +27,6 @@ Via Yarn:
 yarn add react-display-control
 ```
 
-- Code: [See example <Fruits /> component here](https://github.com/trunghongoc/react-display-control/tree/main/example)
-
 ## Content
 
 - [Introduction](#introduction)
