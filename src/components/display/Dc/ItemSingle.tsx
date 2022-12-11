@@ -23,12 +23,8 @@ export const ItemSingle = ({ id, mode, initialDisplay, children }: IProps) => {
       return true
     }
 
-    if (groupContextState) {
-      return true
-    }
-
-    return initialDisplay
-  }, [groupContextState, initialDisplay])
+    return groupContextState
+  }, [groupContextState])
 
   useEffect(() => {
     if (!groupContextState) {
