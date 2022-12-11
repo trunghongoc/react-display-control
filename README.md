@@ -284,10 +284,6 @@ const MyComponent = () => {
 }
 ```
 
-| #   | Hooks             | Type                                                                                                                                                  | Required                                                                 | Default | Example | Note                                               |
-| --- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------- | ------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | useDisplayControl | (groupId: string \| number) => ({ state: { [itemId: string \| number]: boolean }, setDisplay: (displayConfig: { [itemId: string \| number]: boolean } | boolean) => void, displayAll: () => void, hideAll: () => void }) \| null | true    |         | const homePageDc = useDisplayControl('homePageDc') | useDisplayControl(`groupId`) will return null if it cant not find the `<Group />` It's because you passed wrong `groupId`, or at the time component don't complete setup all necessary. Therefore always use `homePageDc?.state`, `homePageDc?.setDisplay(...)` `homePageDc.hideAll()`, `homePageDc.displayAll()` to avoid some unnecessary errors `homePageDc.state`: all current display state of current `<Group />`, example: `{ header: true, body: false }` `homePageDc.setDisplay({ header: false, footer: true })`: set display state for `header` and `footer` `homePageDc.displayAll()`: display all `<Item />` of current `<Group />` `homePageDc.hideAll()`: hide all `<Item />` of current `<Group />` |
-
 Usuage:
 
 ```tsx
@@ -316,7 +312,9 @@ const { state, setDisplay, displayAll, hideAll }: UseDisplayControlValue =
   - Meaning:
     - state: all display state infomation of `<Item />` inside a `<Group />`
     - setDisplay: set show/hide some `<Item />`
-      - Example: `setDisplay({ header: true, body: false })`
+      - Example 1: `setDisplay({ header: true, body: false })`
+      - Example 2: `setDisplay(true)` (show all)
+      - Example 3: `setDisplay(false)` (hide all)
     - displayAll: show all `<Item />` inside a `<Group />`
     - hideAll: hide all `<Item />` inside a `<Group />`
 
