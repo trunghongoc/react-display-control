@@ -84,37 +84,7 @@ export const App = () => {
 
 `<SingleItem />` is an alias of `<DisplayControlSingleItem />`
 
-```tsx
-import {
-  SingleItem,
-  useDisplayControl,
-  UseDisplayControlValue
-} from 'react-display-control'
-// Or
-/*
-import {
-  DisplayControlSingleItem,
-  useDisplayControl,
-  UseDisplayControlValue
-} from 'react-display-control'
-*/
-
-const Home = () => {
-  const mySingleItemDc: UseDisplayControlValue =
-    useDisplayControl('mySingleItemDc')
-
-  return (
-    <div>
-      <button onClick={() => mySingleItemDc?.setDisplay(true)}>Show</button>
-      <button onClick={() => mySingleItemDc?.setDisplay(false)}>Hide</button>
-
-      <SingleItem id="mySingleItemDc" mode="render" initialDisplay={true}>
-        <p>My content inside</p>
-      </SingleItem>
-    </div>
-  )
-}
-```
+[Example code + preview: Show/hide for single item `<SingleItem />`](https://codesandbox.io/s/show-hide-for-single-item-react-display-control-738u8f?file=/src/App.tsx)
 
 ### Basic show/hide some components or some elements in a `<Group />`
 
