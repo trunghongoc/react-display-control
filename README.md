@@ -38,10 +38,15 @@ Via Yarn:
 yarn add react-display-control
 ```
 
+## Demo, sample
+
+- [See the demo + sample code here](https://codesandbox.io/s/nesting-display-control-react-display-control-7nk4xw)
+
 ## Content
 
 - [Introduction](#introduction)
   - [Install](#install)
+  - [Demo, sample](#demo-sample)
   - [Content](#content)
   - [Usuage](#usuage)
     - [Import Display Control Provider to App.tsx](#import-display-control-provider-to-apptsx)
